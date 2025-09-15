@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
-// using System;
+using UnityEngine.SceneManagement;
+
 
 public class SnakeControl : MonoBehaviour
 {
@@ -21,19 +22,19 @@ public class SnakeControl : MonoBehaviour
             MoveSnake();
             timer = 0;
         }
-        if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.W)&&moveDirection!=Vector2.down)
         {
             moveDirection = Vector2.up; 粒子.Play();
         }
-        else if (Input.GetKeyDown(KeyCode.S))
+        else if (Input.GetKeyDown(KeyCode.S) && moveDirection != Vector2.up)
         {
             moveDirection = Vector2.down; 粒子.Play();
         }
-        else if (Input.GetKeyDown(KeyCode.A))
+        else if (Input.GetKeyDown(KeyCode.A) && moveDirection != Vector2.right)
         {
             moveDirection = Vector2.left; 粒子.Play();
         }
-        else if (Input.GetKeyDown(KeyCode.D))
+        else if (Input.GetKeyDown(KeyCode.D) && moveDirection != Vector2.left)
         {
 
             moveDirection = Vector2.right; 粒子.Play();
@@ -67,12 +68,10 @@ public class SnakeControl : MonoBehaviour
             GrowSnake(); // 蛇变长
             SpawnFood(other.gameObject); // 重新生成食物
         }
-        // 2. 碰到边界或自己：游戏结束
         else if (other.CompareTag("Wall") || other.CompareTag("SnakeBody"))
         {
-            Debug.Log("游戏结束！");
-            Time.timeScale = 0;
-            
+            SceneManager.LoadScene(0);
+            enabled = false;
         }
     }
 
