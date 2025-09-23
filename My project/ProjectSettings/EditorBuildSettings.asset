@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/start.unity
     guid: fa9755320b9eb3349805560fbfde6989
   - enabled: 1
-    path: Assets/ceshi.unity
+    path: Assets/Scenes/game.unity
     guid: 0c1f2c7fd9547c7469ffce16abf87320
+  - enabled: 1
+    path: Assets/Scenes/end.unity
+    guid: a9c6ecd321f0cbc4285b49ba15810d77
   m_configObjects: {}

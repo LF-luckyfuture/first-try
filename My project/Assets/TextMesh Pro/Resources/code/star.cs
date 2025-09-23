@@ -5,8 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class star : MonoBehaviour
 {
-    public void Start()
+    public void Jump()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-    }
+        SceneManager.LoadScene(1);
+            }
 }

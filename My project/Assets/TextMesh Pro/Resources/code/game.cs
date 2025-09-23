@@ -5,16 +5,16 @@ using UnityEngine.SceneManagement;
 
 public class SnakeControl : MonoBehaviour
 {
-    public Transform snakeHead; // 蛇头
-    public GameObject snakeBodyPrefab; // 蛇身预制体
-    private Vector2 moveDirection = Vector2.right; // 初始方向向右
-    private float moveInterval = 0.2f; // 移动间隔（越小越快）
+    public Transform snakeHead;
+    public GameObject snakeBodyPrefab;
+    private Vector2 moveDirection = Vector2.right;
+    private float moveInterval = 0.2f;
     private float timer; // 计时用
-    private List<Transform> snakeBody = new List<Transform>(); // 存储蛇身
-    public ParticleSystem 粒子;
+    private List<Transform> snakeBody = new List<Transform>();
+    public ParticleSystem Particle;
     void Update()
     {
-        粒子 = GetComponent<ParticleSystem>();
+        Particle = GetComponent<ParticleSystem>();
         // 计时：达到间隔时间就移动一次
         timer += Time.deltaTime;
         if (timer >= moveInterval)
@@ -24,24 +24,22 @@ public class SnakeControl : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.W)&&moveDirection!=Vector2.down)
         {
-            moveDirection = Vector2.up; 粒子.Play();
+            moveDirection = Vector2.up;Particle.Play();
         }
         else if (Input.GetKeyDown(KeyCode.S) && moveDirection != Vector2.up)
         {
-            moveDirection = Vector2.down; 粒子.Play();
+            moveDirection = Vector2.down; Particle.Play();
         }
         else if (Input.GetKeyDown(KeyCode.A) && moveDirection != Vector2.right)
         {
-            moveDirection = Vector2.left; 粒子.Play();
+            moveDirection = Vector2.left;Particle.Play();
         }
         else if (Input.GetKeyDown(KeyCode.D) && moveDirection != Vector2.left)
         {
 
-            moveDirection = Vector2.right; 粒子.Play();
+            moveDirection = Vector2.right;Particle.Play();
         }
     }
-
-    // 蛇的移动逻辑
     void MoveSnake()
     {
         // 记录蛇头移动前的位置（给蛇身跟随用）
@@ -59,7 +57,6 @@ public class SnakeControl : MonoBehaviour
             snakeBody.Insert(0, lastBody);
         }
     }
-    // 检测蛇头与其他物体的碰撞（吃食物/撞墙/撞自己）
     void OnTriggerEnter2D(Collider2D other)
     {
         // 1. 碰到食物：蛇变长，食物重新生成
@@ -70,7 +67,7 @@ public class SnakeControl : MonoBehaviour
         }
         else if (other.CompareTag("Wall") || other.CompareTag("SnakeBody"))
         {
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene(2);
             enabled = false;
         }
     }
@@ -79,9 +76,8 @@ public class SnakeControl : MonoBehaviour
     void GrowSnake()
     {
         Transform newBody = Instantiate(snakeBodyPrefab).transform;
-        newBody.position = snakeHead.position; // 新蛇身生成在蛇头位置（后续会跟随移动）
         snakeBody.Add(newBody);
-        newBody.tag = "SnakeBody"; // 给蛇身加标签，用于碰撞检测（撞自己）
+        newBody.tag = "SnakeBody";
     }
 
     // 随机生成食物（避免生成在蛇身上）
